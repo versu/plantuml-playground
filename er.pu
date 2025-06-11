@@ -1,0 +1,142 @@
+@startuml ER図のサンプル1
+
+!include ./common/style_class_diagram.pu
+
+entity Resource <<R リソース>> {
+  <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+  --
+  <b>Name</b> : string (not null) -- リソース名
+  <b>CreatedAt</b> : datetime (not null) -- 作成日時
+  <b>Type</b> : tinyint <<index>> (not null) -- リソース種別
+  <b>Cost</b> : decimal (not null) -- コスト
+  <b>Deleted</b> : bit (not null) -- 削除フラグ
+  <b>Option</b> : string (nullable) -- オプション
+  .. (その他のリソース関連情報) ..
+}
+
+entity Event <<E イベント>> {
+  +<b>OrderItemId</b> : char(26)(ulid) -- 注文明細ID
+  --
+  <b>Name</b> : string (not null) -- イベント名
+  <b>CreatedAt</b> : datetime (not null) -- 作成日時
+  <b>EventType</b> : tinyint <<index>> (not null) -- イベント種別
+  <b>Cost</b> : decimal (not null) -- コスト
+  <b>Deleted</b> : bit (not null) -- 削除フラグ
+  <b>Option</b> : string (nullable) -- オプション
+  .. (その他のイベント関連情報) ..
+}
+note right of Event
+  ■イベント種別
+  1: 完了
+  2: 失敗
+  3: キャンセル
+end note
+
+' 新しく作成するテーブル
+entity NewResource <<R 新リソース>> <<<new_entity>>> {
+  <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+  --
+  <b>Name</b> : string (not null) -- リソース名
+  .. (その他のリソース関連情報) ..
+}
+
+' 更新するテーブル
+entity UpdateResource <<R 更新リソース>> <<<update_entity>>> {
+  <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+  --
+  <b>Name</b> : string (not null) -- リソース名
+  .. (その他のリソース関連情報) ..
+}
+
+entity Resource1 <<R 新リソース>> {
+  <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+  --
+  <b>Name</b> : string (not null) -- リソース名
+  .. (その他のリソース関連情報) ..
+}
+
+entity Resource2 <<R 新リソース>> {
+  <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+  --
+  <b>Name</b> : string (not null) -- リソース名
+  .. (その他のリソース関連情報) ..
+}
+
+entity Resource3 <<R 新リソース>> {
+  <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+  --
+  <b>Name</b> : string (not null) -- リソース名
+  .. (その他のリソース関連情報) ..
+}
+
+entity Resource4 <<R 新リソース>> {
+  <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+  --
+  <b>Name</b> : string (not null) -- リソース名
+  .. (その他のリソース関連情報) ..
+}
+
+entity Resource5 <<R 新リソース>> {
+  <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+  --
+  <b>Name</b> : string (not null) -- リソース名
+  .. (その他のリソース関連情報) ..
+}
+
+' リレーションシップ
+/' 方向指定 
+up: 上方向
+down: 下方向
+left: 左方向 
+right: 右方向
+'/
+Resource1 ||-r-|| Resource2 : "1:1"
+Resource1 ||-d-o| Resource3 : "1:0..1"
+Resource1 ||-l-|{ Resource4 : "1:n"
+Resource1 ||-u-o{ Resource5 : "1:0..n"
+
+@enduml
+
+@startuml ER図のサンプル2
+
+!include ./common/style_class_diagram.pu
+
+package "HangfireDB" as HangfireDB {
+  entity Resource1 <<R 新リソース>> {
+    <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+    --
+    <b>Name</b> : string (not null) -- リソース名
+    .. (その他のリソース関連情報) ..
+  }
+
+  entity Resource2 <<R 新リソース>> {
+    <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+    --
+    <b>Name</b> : string (not null) -- リソース名
+    .. (その他のリソース関連情報) ..
+  }
+}
+
+package "ServiceDB" as ServiceDB {
+  entity Resource3 <<R 新リソース>> {
+    <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+    --
+    <b>Name</b> : string (not null) -- リソース名
+    .. (その他のリソース関連情報) ..
+  }
+
+  entity Resource4 <<R 新リソース>> {
+    <b>ResourceId</b>: bigint <<pk, identity>> -- リソースID
+    --
+    <b>Name</b> : string (not null) -- リソース名
+    .. (その他のリソース関連情報) ..
+  }
+}
+
+' リレーションシップ
+Resource1 ||-r-|| Resource2 : "1:1"
+Resource1 ||-d-o| Resource3 : "1:0..1"
+Resource1 ||-l-|{ Resource4 : "1:n"
+
+@enduml
+

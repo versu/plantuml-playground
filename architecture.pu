@@ -1,0 +1,58 @@
+@startuml アーキテクチャ全体像1
+
+package "ProjectName" as project {
+    package "Presentation" as presentation {
+      component "Controller" as controller
+    }
+
+    package "Usecase" as usecase {
+      component "Usecase" as usecase_impl
+    }
+
+    package "Infrastructure" as infrastructure {
+      component "Infrastructure Interface" as infrastructure_interface
+      component "Infrastructure Impl" as infrastructure_impl
+    }
+
+    package "Domain" as domain {
+      component "Business Logic" as business_logic
+    }
+
+    controller --> usecase_impl : "依存"
+    usecase_impl --> infrastructure_interface : "依存"
+    infrastructure_interface <|-- infrastructure_impl : 実装
+    usecase_impl --> business_logic : "依存"
+}
+
+@enduml
+
+@startuml アーキテクチャ全体像2
+
+package "ProjectName" as project {
+    package "Presentation" as presentation {
+      component "Controller" as controller
+    }
+
+    package "Usecase" as usecase {
+      component "QueryService Interface" as query_service_interface
+      component "Usecase" as usecase_impl
+    }
+
+    package "Infrastructure" as infrastructure {
+      component "Infrastructure Impl" as infrastructure_impl
+      component "QueryService Impl" as query_service_impl
+    }
+
+    package "Domain" as domain {
+      component "Infrastructure Interface" as infrastructure_interface
+      component "Business Logic" as business_logic
+    }
+
+    controller --> usecase_impl : "依存"
+    usecase -d-> domain : "依存"
+    infrastructure_interface <|-- infrastructure_impl : 実装
+    query_service_interface <|-- query_service_impl : 実装
+    
+}
+
+@enduml

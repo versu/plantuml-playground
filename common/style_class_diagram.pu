@@ -1,0 +1,28 @@
+@startuml クラス図のスタイル定義
+
+' ----------------------------------------
+' クラス図で共通で使用する変数・スタイルの定義
+' ----------------------------------------
+
+' リソースエンティティの記号・背景色の定義
+!define R (R, #ADD1B2)
+
+' イベントエンティティの記号・背景色の定義
+!define E (E, #B4A7E5)
+
+
+<style>
+classDiagram {
+    '新規エンティティに適用するスタイル
+    .new_entity {
+        BackgroundColor #FEFECE
+    }
+    '更新エンティティに適用するスタイル
+    .update_entity {
+        BackgroundColor #e0ffff
+    }
+}
+</style>
+
+
+@enduml
